@@ -20,9 +20,10 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.gender }}</td>
                     <td>
-                    <a href="edit.html">edit</a>
+                    <router-link :to="'/heroes/' + item.id ">编辑</router-link>
+                    <!-- <a href="edit.html">编辑</a> -->
                     &nbsp;&nbsp;
-                    <a href="javascript:window.confirm('Are you sure?')">delete</a>
+                    <a @click.prevent="handleDelete(item.id)" href="javascript:void(0)">删除</a>
                     </td>
                 </tr>
             </tbody>
@@ -43,18 +44,47 @@ export default {
     // 生命周期钩子函数
     created() {
         // 发送异步请求，获取数据
-        axios
-            .get('http://localhost:3001/heroes')
-            .then((response) => {
-                if (response.status === 200) {
-                    this.list = response.data;
-                }
+        this.loadData();
+        
+    },
+    methods: {
+        // 加载列表数据
+        loadData() {
+            axios
+                .get('http://localhost:3001/heroes')
+                .then((response) => {
+                    if (response.status === 200) {
+                        this.list = response.data;
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
             })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
-    
+        },
+
+        // 删除数据
+        handleDelete(id) {
+            // 删除前的提示
+            if(!confirm('是否要删除该数据')) {
+                return;
+            }
+
+            // 发送请求。删除英雄
+            axios
+                .delete('http://localhost:3001/heroes/' + id)
+                .then((response) => {
+                    if(response.status === 200) {
+                        // 成功重新加载列表
+                        this.loadData();
+                    }else{
+                        alert('删除失败')
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                }) 
+        }
+    }    
 }
 </script>
 <style>

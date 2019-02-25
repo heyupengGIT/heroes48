@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h2 class="sub-header">武器@@管理</h2>
+      <h2 class="sub-header">武器管理</h2>
       <a class="btn btn-success" href="add.html">添加</a>
       <div class="table-responsive">
         <table class="table table-striped">

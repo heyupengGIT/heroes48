@@ -22,7 +22,7 @@ export default {
         // 绑定文本框的数据，将来也是给post给服务器的数据
         formData: {
           name: '',
-          dender: ''
+          gender: ''
         }
       }
     },
